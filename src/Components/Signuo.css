@@ -1,0 +1,78 @@
+:root {
+  background-color: #454545;
+}
+#root {
+  background-color: #454545;
+}
+
+.card-data {
+  text-align: center;
+  width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+
+}
+.card-data img {
+  display: inline-block;
+  max-width: 100%;
+  width: 40px;
+    height: 40px;
+}
+.card {
+  width: 360px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.form-label {
+  font-weight: 500;
+  font-size: 12px;
+}
+.form-check-label {
+  font-size: 12px;
+}
+.form-control {
+  font-size: 12px;
+}
+.submit-button {
+  background-color: #454545;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-weight: 500;
+}
+.submit-button:hover {
+  background-color: #6b6b6b;
+  color: white;
+}
+.cancel-button {
+  background-color: #e5e7eb;
+  width: 100%;
+  text-align: center;
+  color: #454545;
+  font-weight: 500;
+}
+.cancel-button:hover {
+  background-color: #f1f1f1;
+  color: #454545;
+}
+.terms {
+  font-size: 12px;
+  text-align: center;
+  padding-top: 5px;
+  font-weight: 300;
+}
+.sign-Up{
+    font-weight: 700;
+    color: white;
+    font-size: 27px;
+
+}
+.sign-para{
+    text-align: center;
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+}
