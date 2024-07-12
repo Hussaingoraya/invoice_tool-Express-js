@@ -76,3 +76,9 @@
     font-size: 20px;
     line-height: 22px;
 }
+
+.Build-by{
+    text-align: center;
+    color: white;
+    font-weight: 500;
+}

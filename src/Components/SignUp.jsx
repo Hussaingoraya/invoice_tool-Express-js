@@ -13,7 +13,7 @@ export default function SignUp() {
         </p>
       </div>
 
-      <div className="card">
+      <div className="card container">
         <div className="card-body">
           <form>
             <div className="mb-2">
@@ -87,6 +87,8 @@ export default function SignUp() {
           </form>
         </div>
       </div>
+      <p className="Build-by mt-2">Build by Hussain Aslam</p>
+
     </>
   );
 }
