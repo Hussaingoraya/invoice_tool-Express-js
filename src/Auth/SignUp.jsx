@@ -1,10 +1,21 @@
-import React from "react";
-import "./Signuo.css";
+import React, { useState } from "react";
+import "./Signup.css";
 import goodImage from "../assets/good.png";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+  const [showMore, setShowMore] = useState(false);
+
+  const handleShowMore = () => {
+    setShowMore(!showMore);
+  };
+  const navigate = useNavigate();
+  const handlelogin = () => {
+    navigate("/login");
+  };
   return (
     <>
+     <div className="signup-container">
       <div className="card-data">
         <img className="mb-2" src={goodImage} alt="" />
         <h1 className="sign-Up mb-2">Sign Up</h1>
@@ -71,8 +82,20 @@ export default function SignUp() {
               />
               <label className="form-check-label" htmlFor="exampleCheck1">
                 I want to receive emails from Invoice Simple and its Affiliates
-                about their products, services, news, events, and promotions.
-                Read our Privacy Policy.
+                {showMore && (
+                  <span>
+                    about their products, services, news, events, and
+                    promotions.
+                    {/* <Link to="/privacy-policy"> Read our Privacy Policy.</Link> */}
+                  </span>
+                )}
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={handleShowMore}
+                >
+                  {showMore ? "Show Less" : "Show More"}
+                </button>
               </label>
             </div>
             <button type="submit" className="btn submit-button mb-2">
@@ -87,8 +110,19 @@ export default function SignUp() {
           </form>
         </div>
       </div>
-      <p className="Build-by mt-2">Build by Hussain Aslam</p>
 
+      <div className="login-btn mt-3">
+        Already have an account?{" "}
+        <button
+          type="submit"
+          className="btn login-button"
+          onClick={handlelogin}
+        >
+          Login
+        </button>
+      </div>
+      <p className="Build-by mt-2">Build by Hussain Aslam</p>
+      </div>
     </>
   );
 }

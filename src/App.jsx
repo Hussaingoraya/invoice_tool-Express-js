@@ -1,10 +1,20 @@
-import SignUp from "./Components/SignUp"
+import { BrowserRouter, Route, Routes } from "react-router-dom"
+import Login from "./Auth/Login"
+import SignUp from "./Auth/SignUp"
+import Invoices from "./Components/Invoices"
+// import './App.css'
 
 function App() {
 
   return (
     <>
-    <SignUp/>
+   <BrowserRouter>
+   <Routes>
+    <Route path="/" element={<Invoices/>}></Route>
+    <Route path="signup" element={<SignUp/>}></Route>
+    <Route path="login" element={<Login/>}></Route>
+   </Routes>
+   </BrowserRouter>
     
     </>
   )
