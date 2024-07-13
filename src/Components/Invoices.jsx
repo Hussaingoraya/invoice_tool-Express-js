@@ -6,6 +6,7 @@ export default function Invoices() {
   return (
     <>
       <Navbar />
+      <div className="spacer"></div>
 
       <div className="container">
         <div className="row">
@@ -53,21 +54,6 @@ export default function Invoices() {
                   Contact
                 </button>
               </li>
-              <li className="nav-item" role="presentation">
-                <button
-                  className="nav-link"
-                  id="disabled-tab"
-                  data-bs-toggle="tab"
-                  data-bs-target="#disabled-tab-pane"
-                  type="button"
-                  role="tab"
-                  aria-controls="disabled-tab-pane"
-                  aria-selected="false"
-                  disabled
-                >
-                  Disabled
-                </button>
-              </li>
             </ul>
             <div className="tab-content" id="myTabContent">
               <div
@@ -97,15 +83,6 @@ export default function Invoices() {
               >
                 ...
               </div>
-              <div
-                className="tab-pane fade"
-                id="disabled-tab-pane"
-                role="tabpanel"
-                aria-labelledby="disabled-tab"
-                tabindex="0"
-              >
-                ...
-              </div>
             </div>
           </div>
           <div className="col-2"></div>
@@ -114,11 +91,11 @@ export default function Invoices() {
               <input
                 className="form-control me-2 search-bar"
                 type="search"
-                placeholder="Search"
+                placeholder="Search by Client Name"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success " type="submit">
-                Search
+              <button className="btn btn-outline-success invoice-btn " type="submit">
+                New Invoice
               </button>
             </form>
           </div>

@@ -68,17 +68,26 @@ export default function Navbar() {
                 </ul>
               </li>
             </ul>
-            <form className="d-flex" role="search">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-              <button className="btn btn-outline-success" type="submit">
-                Search
+            <div className="d-flex" role="search">
+                <div>
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  SignUp
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link" href="#">
+                  Login
+                </a>
+              </li>
+              </ul>
+                </div>
+             
+              <button className="btn btn-outline-success upgrade-btn" type="submit">
+                Upgrade Now
               </button>
-            </form>
+            </div>
           </div>
         </div>
       </nav>
