@@ -23,7 +23,7 @@ export default function Invoices() {
                   aria-controls="home-tab-pane"
                   aria-selected="true"
                 >
-                  Home
+                  All Invoices
                 </button>
               </li>
               <li className="nav-item" role="presentation">
@@ -37,7 +37,7 @@ export default function Invoices() {
                   aria-controls="profile-tab-pane"
                   aria-selected="false"
                 >
-                  Profile
+                  Outstanding
                 </button>
               </li>
               <li className="nav-item" role="presentation">
@@ -51,39 +51,10 @@ export default function Invoices() {
                   aria-controls="contact-tab-pane"
                   aria-selected="false"
                 >
-                  Contact
+                  Paid
                 </button>
               </li>
             </ul>
-            <div className="tab-content" id="myTabContent">
-              <div
-                className="tab-pane fade show active"
-                id="home-tab-pane"
-                role="tabpanel"
-                aria-labelledby="home-tab"
-                tabindex="0"
-              >
-                ...
-              </div>
-              <div
-                className="tab-pane fade"
-                id="profile-tab-pane"
-                role="tabpanel"
-                aria-labelledby="profile-tab"
-                tabindex="0"
-              >
-                ...
-              </div>
-              <div
-                className="tab-pane fade"
-                id="contact-tab-pane"
-                role="tabpanel"
-                aria-labelledby="contact-tab"
-                tabindex="0"
-              >
-                ...
-              </div>
-            </div>
           </div>
           <div className="col-2"></div>
           <div className="col-5">
@@ -94,10 +65,111 @@ export default function Invoices() {
                 placeholder="Search by Client Name"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success invoice-btn " type="submit">
+              <button
+                className="btn btn-outline-success invoice-btn "
+                type="submit"
+              >
                 New Invoice
               </button>
             </form>
+          </div>
+        </div>
+        <div className="tab-content mt-2" id="myTabContent">
+          <div
+            className="tab-pane fade show active"
+            id="home-tab-pane"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            tabindex="0"
+          >
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col"className="invoice">Invoice</th>
+                  <th scope="col">Client</th>
+                  <th scope="col">Date</th>
+                  <th scope="col"></th>
+                  <th scope="col" className="balance">Balance Due</th>
+                  <th scope="col" className="empty-space"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <span>You have no invoice<span>,</span> <a href="">add your first invoice today</a></span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>{" "}
+          </div>
+          <div
+            className="tab-pane fade"
+            id="profile-tab-pane"
+            role="tabpanel"
+            aria-labelledby="profile-tab"
+            tabindex="0"
+          >
+             <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col"className="invoice">Invoice</th>
+                  <th scope="col">Client</th>
+                  <th scope="col">Date</th>
+                  <th scope="col"></th>
+                  <th scope="col" className="balance">Balance Due</th>
+                  <th scope="col" className="empty-space"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <span>You have no invoice<span>,</span> <a href="">add your first invoice today</a></span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>{" "}
+          </div>
+          <div
+            className="tab-pane fade"
+            id="contact-tab-pane"
+            role="tabpanel"
+            aria-labelledby="contact-tab"
+            tabindex="0"
+          >
+             <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col"className="invoice">Invoice</th>
+                  <th scope="col">Client</th>
+                  <th scope="col">Date</th>
+                  <th scope="col"></th>
+                  <th scope="col" className="balance">Balance Due</th>
+                  <th scope="col" className="empty-space"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">
+                    <span>You have no invoice<span>,</span> <a href="">add your first invoice today</a></span>
+                  </th>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>{" "}
           </div>
         </div>
       </div>

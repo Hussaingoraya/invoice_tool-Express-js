@@ -1,6 +1,7 @@
 import React from "react";
 import "./Nav.css";
 import logo from "../assets/good.png";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -72,14 +73,14 @@ export default function Navbar() {
                 <div>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <Link className="nav-link" to={'/signup'}>
                   SignUp
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <Link className="nav-link" to={'/login'}>
                   Login
-                </a>
+                </Link>
               </li>
               </ul>
                 </div>

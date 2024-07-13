@@ -8,6 +8,7 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   /* background-color: #242424; */
+  background-color: #f3f4f6;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,6 +25,9 @@ body {
   min-width: 320px;
   min-height: 100vh;
 } */
+body{
+  background-color: #f3f4f6;
+}
 
 
 
