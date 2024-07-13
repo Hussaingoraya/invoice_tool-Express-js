@@ -80,7 +80,7 @@ export default function Invoices() {
             id="home-tab-pane"
             role="tabpanel"
             aria-labelledby="home-tab"
-            tabindex="0"
+            tabIndex="0"
           >
             <table className="table">
               <thead>
@@ -112,7 +112,7 @@ export default function Invoices() {
             id="profile-tab-pane"
             role="tabpanel"
             aria-labelledby="profile-tab"
-            tabindex="0"
+            tabIndex="0"
           >
              <table className="table">
               <thead>
@@ -144,7 +144,7 @@ export default function Invoices() {
             id="contact-tab-pane"
             role="tabpanel"
             aria-labelledby="contact-tab"
-            tabindex="0"
+            tabIndex="0"
           >
              <table className="table">
               <thead>
@@ -153,7 +153,7 @@ export default function Invoices() {
                   <th scope="col">Client</th>
                   <th scope="col">Date</th>
                   <th scope="col"></th>
-                  <th scope="col" className="balance">Balance Due</th>
+                  <th scope="col" className="balance">Total</th>
                   <th scope="col" className="empty-space"></th>
                 </tr>
               </thead>

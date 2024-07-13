@@ -2,6 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 import Login from "./Auth/Login"
 import SignUp from "./Auth/SignUp"
 import Invoices from "./Components/Invoices"
+import Estimates from "./Components/Estimates"
+import Report from "./Components/Report"
+import Expenss from "./Components/Expenss"
 // import './App.css'
 
 function App() {
@@ -10,8 +13,11 @@ function App() {
     <>
    <BrowserRouter>
    <Routes>
-    <Route path="signup" element={<Invoices/>}></Route>
-    <Route path="/" element={<SignUp/>}></Route>
+    <Route path="expenss" element={<Expenss/>}></Route>
+    <Route path="report" element={<Report/>}></Route>
+    <Route path="estimate" element={<Estimates/>}></Route>
+    <Route path="/" element={<Invoices/>}></Route>
+    <Route path="signup" element={<SignUp/>}></Route>
     <Route path="login" element={<Login/>}></Route>
    </Routes>
    </BrowserRouter>
