@@ -26,13 +26,13 @@
 }
 
 .navbar-collapse {
-    background-color: #5e5e5e;
+    background-color: #454545;
     z-index: 1;
   }
   
-  .navbar-collapse.show {
+  /* .navbar-collapse.show {
     background-color: #5e5e5e;
-  }
+  } */
 
 .navbar .logo {
   height: 32px;
@@ -124,5 +124,69 @@
   }
   .export{
     margin-right: 10px;
+  }
+
+
+  @media screen and (max-width: 991px) {
+    .invoice-search{
+        width: 100%;
+    }
+    .search-bar{
+        width: 100%;
+    }
+    .navtab{
+        width: auto;
+        margin-bottom: 5px;
+    }
+   
+  }
+
+
+  @media (max-width: 767px) {
+    .table, .table thead, .table tbody, .table th, .table td, .table tr {
+      display: block;
+    }
+    
+    .table thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
+    }
+    
+    .table tr {
+      margin: 0 0 1rem 0;
+    }
+    
+    .table td, .table th {
+      position: relative;
+      padding-left: 50%;
+      text-align: left;
+    }
+    
+    .table td:before, .table th:before {
+      position: absolute;
+      top: 0;
+      left: 10px;
+      width: 45%;
+      padding-right: 10px;
+      white-space: nowrap;
+      font-weight: bold;
+    }
+    
+    .table td:nth-of-type(1):before { content: "Invoice"; }
+    .table td:nth-of-type(2):before { content: "Client"; }
+    .table td:nth-of-type(3):before { content: "Date"; }
+    .table td:nth-of-type(4):before { content: ""; }
+    .table td:nth-of-type(5):before { content: "Balance Due"; }
+    .table td:nth-of-type(6):before { content: ""; }
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    padding: 17px;
   }
   

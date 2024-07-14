@@ -10,7 +10,7 @@ export default function Invoices() {
 
       <div className="container">
         <div className="row">
-          <div className="col-5">
+          <div className="col-5 navtab">
             <ul className="nav nav-tabs" id="myTab" role="tablist">
               <li className="nav-item" role="presentation">
                 <button
@@ -57,7 +57,7 @@ export default function Invoices() {
             </ul>
           </div>
           <div className="col-2"></div>
-          <div className="col-5">
+          <div className="col-5 invoice-search">
             <form className=" form-search-bar" role="search">
               <input
                 className="form-control me-2 search-bar"
