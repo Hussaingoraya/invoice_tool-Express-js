@@ -1,7 +1,7 @@
 import React from "react";
 import "./Nav.css";
 import logo from "../assets/good.png";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
   return (
@@ -26,24 +26,24 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link active" aria-current="page" to={'/'}>
+                <NavLink className="nav-link" aria-current="page" to={'/'}>
                   Invoices
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={'/estimate'}>
+                <NavLink className="nav-link" to={'/estimate'}>
                   Estimates
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={'/expenss'}>
+                <NavLink className="nav-link" to={'/expenss'}>
                   Expenses
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={'/report'}>
+                <NavLink className="nav-link" to={'/report'}>
                   Reports
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item dropdown">
                 <a
@@ -73,14 +73,14 @@ export default function Navbar() {
                 <div>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <Link className="nav-link" to={'/signup'}>
+                <NavLink className="nav-link" to={'/signup'}>
                   SignUp
-                </Link>
+                </NavLink>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to={'/login'}>
+                <NavLink className="nav-link" to={'/login'}>
                   Login
-                </Link>
+                </NavLink>
               </li>
               </ul>
                 </div>
