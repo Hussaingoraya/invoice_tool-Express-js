@@ -138,6 +138,11 @@
         width: auto;
         margin-bottom: 5px;
     }
+    .upgrade{
+        display: flex;
+        justify-content: space-between;
+
+    }
    
   }
 

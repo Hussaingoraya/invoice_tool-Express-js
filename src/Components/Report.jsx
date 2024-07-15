@@ -56,23 +56,7 @@ export default function Report() {
             </li>
           </ul>
         </div>
-        <div className="col-2"></div>
-        <div className="col-5 invoice-search">
-          <form className=" form-search-bar" role="search">
-            <input
-              className="form-control me-2 search-bar"
-              type="search"
-              placeholder="Search by Client Name"
-              aria-label="Search"
-            />
-            <button
-              className="btn btn-outline-success invoice-btn "
-              type="submit"
-            >
-              New Invoice
-            </button>
-          </form>
-        </div>
+     
       </div>
       <div className="tab-content mt-2" id="myTabContent">
         <div

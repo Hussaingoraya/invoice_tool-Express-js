@@ -69,7 +69,7 @@ export default function Navbar() {
                 </ul>
               </li>
             </ul>
-            <div className="d-flex" role="search">
+            <div className="d-flex upgrade" role="search">
                 <div>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
