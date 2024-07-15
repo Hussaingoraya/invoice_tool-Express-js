@@ -6,15 +6,24 @@ import Estimates from "./Components/Estimates"
 import Report from "./Components/Report"
 import Expenss from "./Components/Expenss"
 import Client from "./Components/Client"
+import ClientNew from "./Components/ClientNew"
+import { useState } from "react"
 // import './App.css'
 
 function App() {
+  const [clients, setClients] = useState([]);
+
+  const addClient = (newClient) => {
+    setClients([...clients, newClient]);
+  };
+  
 
   return (
     <>
    <BrowserRouter>
    <Routes>
-    <Route path="client" element={<Client/>}></Route>
+   <Route path="/client/new" element={<ClientNew addClientProp={addClient} />} />
+        <Route path="/client" element={<Client clientProp={clients} />} />
     <Route path="expenss" element={<Expenss/>}></Route>
     <Route path="report" element={<Report/>}></Route>
     <Route path="estimate" element={<Estimates/>}></Route>

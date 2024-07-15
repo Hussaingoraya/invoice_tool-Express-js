@@ -1,114 +1,100 @@
 import React from "react";
 import "./Nav.css";
 import Navbar from "./Navbar";
+import { Link } from "react-router-dom";
 
-export default function Client() {
+export default function Client({clientProp}) {
   return (
     <>
       <Navbar />
+      <div className="spacer"></div>
 
       <div className="container">
-        <div className="client-edit-header page-header">
-          <h1>New Client</h1>
-          <div className="loading-indicator"></div>
+        <div className="row">
+          <div className="col-5 navtab">
+            <div className="client-edit-header page-header">
+              <h1>Client</h1>
+              <div className="loading-indicator"></div>
+            </div>
+          </div>
+          <div className="col-2"></div>
+          <div className="col-5 invoice-search">
+            <form className=" form-search-bar" role="search">
+              <input
+                className="form-control me-2 search-bar"
+                type="search"
+                placeholder="Search by Client Name"
+                aria-label="Search"
+              />
+              <button
+                className="btn btn-outline-success invoice-btn "
+                type="submit"
+              >
+                New Client
+              </button>
+            </form>
+          </div>
         </div>
+        <div className="tab-content mt-2" id="myTabContent">
+          <div
+            className="tab-pane fade show active"
+            id="home-tab-pane"
+            role="tabpanel"
+            aria-labelledby="home-tab"
+            tabIndex="0"
+          >
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col" className="invoice">
+                    Name
+                  </th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Address</th>
+                  <th scope="col">Phone</th>
+                  <th scope="col" className="empty-space"></th>
+                  <th scope="col" className="balance">
+                    Total Billed
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                    clientProp && clientProp.length  > 0 ? (
+                        clientProp.map((client ,i )=>(
 
-        <div className="client-edit-body">
-          <form>
-            <div className="form-group row row-client-email">
-              <label for="client-name" className="col-md-2 col-form-label ">
-                Name
-              </label>
-              <div className="col-md-10 app-theme">
-                <input
-                  type="text"
-                  id="client-name"
-                  placeholder="Client Name"
-                />
-              </div>
-            </div>
-            <div className="form-group row row-client-email">
-              <label for="client-email" className="col-md-2 col-form-label">
-                Email
-              </label>
-              <div className="col-md-10 app-theme">
-                <div className="text-with-icon w-100">
-                  <input
-                    type="email"
-                    id="client-email"
-                    name="client-email"
-                    className="client-email"
-                    autocomplete="email"
-                    placeholder="name@client.com"
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="form-group row row-client-address">
-              <label for="client-address1" className="col-md-2 col-form-label">
-                Address
-              </label>
-              <div className="col-md-10 app-theme">
-                <input
-                  type="text"
-                  id="client-address1"
-                  placeholder="123 Happy Client Street"
-                  className="mb-3"
-                />
-                <input
-                  type="text"
-                  id="client-address2"
-                  placeholder="City"
-                  className="mb-3"
-                />
-                <input
-                  type="text"
-                  id="client-address3"
-                  placeholder="Country"
-                  className="mb-2"
-                />
-              </div>
-            </div>
-            <div className="form-group row row-client-phone">
-              <label for="client-phone" className="col-md-2 col-form-label">
-                Phone
-              </label>
-              <div className="col-md-10 app-theme">
-                <input
-                  type="tel"
-                  id="client-phone"
-                  maxlength="200"
-                  placeholder="Client Phone"
-                />
-              </div>
-            </div>
-            <div className="form-group row row-client-mobile">
-              <label for="client-mobile" className="col-md-2 col-form-label">
-                Mobile
-              </label>
-              <div className="col-md-10 app-theme">
-                <input
-                  type="tel"
-                  id="client-mobile"
-                  maxlength="200"
-                  placeholder="Client Mobile"
-                />
-              </div>
-            </div>
-            <div className="form-group row row-client-fax">
-              <label for="client-fax" className="col-md-2 col-form-label">
-                Fax
-              </label>
-              <div className="col-md-10 app-theme">
-                <input
-                  type="tel"
-                  id="client-fax"
-                  maxlength="200"
-                  placeholder="Client Fax"
-                />
-              </div>
-            </div>
-          </form>
+                            <tr key={i}>
+                           
+                            <td>{client.name}</td>
+                            <td>{client.email}</td>
+                            <td>{client.address1}</td>
+                            <td>{client.phone}</td>
+                            <td></td>
+                          </tr>
+
+
+                        ))
+
+                    ) : (
+
+                        <tr>
+                        <th scope="row">
+                        <span>
+                          You have no invoice<span>,</span>{" "}
+                          <Link to={"/client/new"}>
+                            add your first client today
+                          </Link>
+                        </span>
+                      </th>
+                      </tr>
+
+
+                    )
+                }
+              
+              </tbody>
+            </table>{" "}
+          </div>
         </div>
       </div>
     </>
