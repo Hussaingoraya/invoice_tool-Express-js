@@ -5,6 +5,7 @@ import Invoices from "./Components/Invoices"
 import Estimates from "./Components/Estimates"
 import Report from "./Components/Report"
 import Expenss from "./Components/Expenss"
+import Client from "./Components/Client"
 // import './App.css'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
     <>
    <BrowserRouter>
    <Routes>
+    <Route path="client" element={<Client/>}></Route>
     <Route path="expenss" element={<Expenss/>}></Route>
     <Route path="report" element={<Report/>}></Route>
     <Route path="estimate" element={<Estimates/>}></Route>

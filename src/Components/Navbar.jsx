@@ -57,9 +57,9 @@ export default function Navbar() {
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <NavLink className="dropdown-item" to={'/client'}>
                       Clients
-                    </a>
+                    </NavLink>
                   </li>
                   <li>
                     <a className="dropdown-item" href="#">
