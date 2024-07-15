@@ -1,10 +1,12 @@
 import React from "react";
 import './Nav.css'
+import Navbar from "./Navbar";
 
 export default function Client() {
   return (
     <>
 
+<Navbar/>
 
     <div className="container">
 
