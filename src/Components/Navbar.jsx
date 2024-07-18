@@ -1,17 +1,23 @@
 import React from "react";
 import "./Nav.css";
 import logo from "../assets/good.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, json, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const loggedinUser = JSON.parse(localStorage.getItem("user"));
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("logIn");
+    navigate("/login");
+  };
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary ">
         <div className="container">
           <img className="logo" src={logo} alt="" />
-          <a className="navbar-brand" href="#">
+          <NavLink className="navbar-brand" to={'/'}>
             Invoice Simple
-          </a>
+          </NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -26,22 +32,22 @@ export default function Navbar() {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <NavLink className="nav-link" aria-current="page" to={'/'}>
+                <NavLink className="nav-link" aria-current="page" to={"/"}>
                   Invoices
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to={'/estimate'}>
+                <NavLink className="nav-link" to={"/estimate"}>
                   Estimates
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to={'/expenss'}>
+                <NavLink className="nav-link" to={"/expenss"}>
                   Expenses
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to={'/report'}>
+                <NavLink className="nav-link" to={"/report"}>
                   Reports
                 </NavLink>
               </li>
@@ -57,7 +63,7 @@ export default function Navbar() {
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <NavLink className="dropdown-item" to={'/client'}>
+                    <NavLink className="dropdown-item" to={"/client"}>
                       Clients
                     </NavLink>
                   </li>
@@ -70,23 +76,20 @@ export default function Navbar() {
               </li>
             </ul>
             <div className="d-flex upgrade" role="search">
-                <div>
-                <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <NavLink className="nav-link" to={'/signup'}>
-                  SignUp
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to={'/login'}>
-                  Login
-                </NavLink>
-              </li>
-              </ul>
-                </div>
-             
-              <button className="btn btn-outline-success upgrade-btn" type="submit">
-                Upgrade Now
+              <div>
+                <ul className="navbar-nav me-auto mb-2 mb-lg-0 mr-3 userLogged">
+                  <li className="nav-item ">
+                    <p className="nav-link ">Welcome : {loggedinUser.fname} </p>
+                  </li>
+                </ul>
+              </div>
+
+              <button
+                className="btn btn-outline-success upgrade-btn"
+                type="submit"
+                onClick={handleLogout}
+              >
+                LogOut
               </button>
             </div>
           </div>
