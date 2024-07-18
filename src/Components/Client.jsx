@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./Nav.css";
 import Navbar from "./Navbar";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AddingContext } from "../Context/ClientContext";
 
-export default function Client({clientProp}) {
+export default function Client() {
+  const {clients} = useContext(AddingContext)
+  const navigate = useNavigate()
+
+  const handleNavigate = () =>{
+    navigate('/client/new')
+
+  }
   return (
     <>
       <Navbar />
@@ -29,6 +37,7 @@ export default function Client({clientProp}) {
               <button
                 className="btn btn-outline-success invoice-btn "
                 type="submit"
+                onClick={handleNavigate}
               >
                 New Client
               </button>
@@ -60,8 +69,8 @@ export default function Client({clientProp}) {
               </thead>
               <tbody>
                 {
-                    clientProp && clientProp.length  > 0 ? (
-                        clientProp.map((client ,i )=>(
+                    clients && clients.length  > 0 ? (
+                      clients.map((client ,i )=>(
 
                             <tr key={i}>
                            

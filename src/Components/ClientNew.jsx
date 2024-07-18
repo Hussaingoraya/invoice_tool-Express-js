@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Nav.css";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
+import { AddingContext } from "../Context/ClientContext";
 
-export default function ClientNew({ addClientProp }) {
+export default function ClientNew() {
+  const {addClient} = useContext(AddingContext)
   const [clientData, setClientData] = useState({
     name: "",
     email: "",
@@ -27,7 +29,7 @@ const handleChange = (e) => {
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    addClientProp(clientData);
+    addClient(clientData);
     setClientData({
       name: "",
       email: "",
