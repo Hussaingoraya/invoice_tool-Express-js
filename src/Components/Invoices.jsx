@@ -5,6 +5,11 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Nav.css";
 
 export default function Invoices() {
+ const navigate = useNavigate()
+  const handleNavigate = () =>{
+    navigate('/new')
+
+  }
   const [storedData, setStoredData] = useState([]);
 
   useEffect(() => {
@@ -80,6 +85,7 @@ export default function Invoices() {
               <button
                 className="btn btn-outline-success invoice-btn "
                 type="submit"
+                onClick={handleNavigate}
               >
                 New Invoice
               </button>
