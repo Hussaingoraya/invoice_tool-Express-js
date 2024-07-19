@@ -14,10 +14,11 @@ export default function Invoices() {
 
   useEffect(() => {
     // Retrieve data from localStorage
-    const data = localStorage.getItem("clientData");
-    if (data) {
-      setStoredData([JSON.parse(data)]); // Convert the JSON string back to an object
-    }
+    const data = JSON.parse(localStorage.getItem("clientDataArray")) || [];
+    setStoredData(data);
+    // if (data) {
+    //   setStoredData([JSON.parse(data)]); // Convert the JSON string back to an object
+    // }
   }, []);
 
   return (

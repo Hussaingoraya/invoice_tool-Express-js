@@ -16,21 +16,55 @@ export default function NewInvoice() {
 
   const onSubmitForm = (e) => {
     e.preventDefault();
-    localStorage.setItem('clientData', JSON.stringify(clientData));
-    console.log("Form is working" , clientData)
+
+    // Store the individual client data in localStorage (if needed)
+    localStorage.setItem("clientData", JSON.stringify(clientData));
+
+    // Get the existing data from localStorage, or initialize an empty array if it doesn't exist
+    const existingData =
+      JSON.parse(localStorage.getItem("clientDataArray")) || [];
+
+    // Append the new data to the array
+    const newData = [...existingData, clientData];
+
+    // Store the updated array back in localStorage
+    localStorage.setItem("clientDataArray", JSON.stringify(newData));
+
+    // Log the submitted form data to the console
+    console.log("Form is working", clientData);
+
+    // Optionally reset the form data if needed
     setClientData({
-        name: "",
-    email: "",
-    address1: "",
-    address2: "",
-    address3: "",
-    phone: "",
-    mobile: "",
-    fax: "",
-
-    })
-
+      name: "",
+      email: "",
+      address1: "",
+      address2: "",
+      address3: "",
+      phone: "",
+      mobile: "",
+      fax: "",
+    });
   };
+
+  //   const onSubmitForm = (e) => {
+  //     e.preventDefault();
+  //     localStorage.setItem("clientData", JSON.stringify(clientData));
+  //     const existingData = JSON.parse(localStorage.getItem("clientDataArray"));
+  //     const newData = [...existingData, clientData];
+  //     localStorage.setItem("clientDataArray", JSON.stringify(newData));
+
+  //     console.log("Form is working", clientData);
+  //     setClientData({
+  //       name: "",
+  //       email: "",
+  //       address1: "",
+  //       address2: "",
+  //       address3: "",
+  //       phone: "",
+  //       mobile: "",
+  //       fax: "",
+  //     });
+  //   };
 
   const navigate = useNavigate();
   const handleOnClick = () => {
