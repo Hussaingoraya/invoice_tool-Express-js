@@ -1,11 +1,8 @@
-import React, { useContext, useState } from "react";
-import "./Nav.css";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import { useNavigate } from "react-router-dom";
-import { AddingContext } from "../Context/ClientContext";
 
-export default function ClientNew() {
-  const {addClient} = useContext(AddingContext)
+export default function NewInvoice() {
   const [clientData, setClientData] = useState({
     name: "",
     email: "",
@@ -17,28 +14,36 @@ export default function ClientNew() {
     fax: "",
   });
 
-const handleChange = (e) => {
-    const { id, value } = e.target;
-    const field = id.replace('client-', ''); // Adjust field names if necessary
-    setClientData((prevData) => ({ ...prevData, [field]: value }));
-  };
-
   const onSubmitForm = (e) => {
     e.preventDefault();
-    addClient(clientData);
-    // setClientData(clientData);
+    localStorage.setItem('clientData', JSON.stringify(clientData));
+    console.log("Form is working" , clientData)
+    setClientData({
+        name: "",
+    email: "",
+    address1: "",
+    address2: "",
+    address3: "",
+    phone: "",
+    mobile: "",
+    fax: "",
+
+    })
+
   };
+
   const navigate = useNavigate();
   const handleOnClick = () => {
-    navigate("/client");
+    navigate("/");
   };
+
   return (
     <>
       <Navbar />
 
       <div className="container">
         <div className="client-edit-header page-header">
-          <h1>New Client</h1>
+          <h1>New Invoice</h1>
           <div className="loading-indicator"></div>
         </div>
 
@@ -51,9 +56,15 @@ const handleChange = (e) => {
               <div className="col-md-10 app-theme">
                 <input
                   type="text"
+                  name="name"
                   id="client-name"
                   placeholder="Client Name"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setClientData({
+                      ...clientData,
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
                   value={clientData.name}
                 />
               </div>
@@ -67,11 +78,16 @@ const handleChange = (e) => {
                   <input
                     type="email"
                     id="client-email"
-                    name="client-email"
+                    name="email"
                     className="client-email"
                     autoComplete="email"
                     placeholder="name@client.com"
-                    onChange={handleChange}
+                    onChange={(e) => {
+                      setClientData({
+                        ...clientData,
+                        [e.target.name]: e.target.value,
+                      });
+                    }}
                     value={clientData.email}
                   />
                 </div>
@@ -87,26 +103,44 @@ const handleChange = (e) => {
               <div className="col-md-10 app-theme">
                 <input
                   type="text"
+                  name="address1"
                   id="client-address1"
                   placeholder="123 Happy Client Street"
                   className="mb-3"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setClientData({
+                      ...clientData,
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
                   value={clientData.address1}
                 />
                 <input
                   type="text"
+                  name="address2"
                   id="client-address2"
                   placeholder="City"
                   className="mb-3"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setClientData({
+                      ...clientData,
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
                   value={clientData.address2}
                 />
                 <input
                   type="text"
+                  name="address3"
                   id="client-address3"
                   placeholder="Country"
                   className="mb-2"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setClientData({
+                      ...clientData,
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
                   value={clientData.address3}
                 />
               </div>
@@ -118,10 +152,16 @@ const handleChange = (e) => {
               <div className="col-md-10 app-theme">
                 <input
                   type="tel"
+                  name="tele"
                   id="client-phone"
                   maxLength="200"
                   placeholder="Client Phone"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setClientData({
+                      ...clientData,
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
                   value={clientData.phone}
                 />
               </div>
@@ -136,29 +176,21 @@ const handleChange = (e) => {
               <div className="col-md-10 app-theme">
                 <input
                   type="tel"
+                  name="mobile"
                   id="client-mobile"
                   maxLength="200"
                   placeholder="Client Mobile"
-                  onChange={handleChange}
+                  onChange={(e) => {
+                    setClientData({
+                      ...clientData,
+                      [e.target.name]: e.target.value,
+                    });
+                  }}
                   value={clientData.mobile}
                 />
               </div>
             </div>
-            <div className="form-group row row-client-fax">
-              <label htmlFor="client-fax" className="col-md-2 col-form-label">
-                Fax
-              </label>
-              <div className="col-md-10 app-theme">
-                <input
-                  type="tel"
-                  id="client-fax"
-                  maxLength="200"
-                  placeholder="Client Fax"
-                  onChange={handleChange}
-                  value={clientData.fax}
-                />
-              </div>
-            </div>
+
             <button type="submit" className="btn btn-primary">
               Submit
             </button>

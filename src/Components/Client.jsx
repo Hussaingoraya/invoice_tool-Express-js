@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import "./Nav.css";
 import Navbar from "./Navbar";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import { AddingContext } from "../Context/ClientContext";
 export default function Client() {
   const {clients} = useContext(AddingContext)
   const navigate = useNavigate()
+  const [bill , setBill] = useState(0)
 
   const handleNavigate = () =>{
     navigate('/client/new')
@@ -79,6 +80,7 @@ export default function Client() {
                             <td>{client.address1}</td>
                             <td>{client.phone}</td>
                             <td></td>
+                            <td className="bill">Rs.{bill}</td>
                           </tr>
 
 

@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "./Navbar";
+import { Link, useNavigate } from "react-router-dom";
+
 import "./Nav.css";
 
 export default function Invoices() {
+  const [storedData, setStoredData] = useState([]);
+
+  useEffect(() => {
+    // Retrieve data from localStorage
+    const data = localStorage.getItem("clientData");
+    if (data) {
+      setStoredData([JSON.parse(data)]); // Convert the JSON string back to an object
+    }
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -85,25 +97,42 @@ export default function Invoices() {
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col"className="invoice">Invoice</th>
+                  <th scope="col" className="invoice">
+                    Invoice
+                  </th>
                   <th scope="col">Client</th>
                   <th scope="col">Date</th>
                   <th scope="col"></th>
-                  <th scope="col" className="balance">Balance Due</th>
+                  <th scope="col" className="balance">
+                    Balance Due
+                  </th>
                   <th scope="col" className="empty-space"></th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">
-                    <span>You have no invoice<span>,</span> <a href="">add your first invoice today</a></span>
-                  </th>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
+                {storedData && storedData.length > 0 ? (
+                  storedData.map((data, i) => (
+                    <tr key={i}>
+                      <td>{data.name}</td>
+                      <td>{data.email}</td>
+                      <td>{data.address1}</td>
+                      <td>{data.phone}</td>
+                      <td></td>
+                      {/* <td className="bill">Rs.{bill}</td> */}
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <th scope="row">
+                      <span>
+                        You have no invoice<span>,</span>{" "}
+                        <Link to={"/client/new"}>
+                          add your first client today
+                        </Link>
+                      </span>
+                    </th>
+                  </tr>
+                )}
               </tbody>
             </table>{" "}
           </div>
@@ -114,21 +143,28 @@ export default function Invoices() {
             aria-labelledby="profile-tab"
             tabIndex="0"
           >
-             <table className="table">
+            <table className="table">
               <thead>
                 <tr>
-                  <th scope="col"className="invoice">Invoice</th>
+                  <th scope="col" className="invoice">
+                    Invoice
+                  </th>
                   <th scope="col">Client</th>
                   <th scope="col">Date</th>
                   <th scope="col"></th>
-                  <th scope="col" className="balance">Balance Due</th>
+                  <th scope="col" className="balance">
+                    Balance Due
+                  </th>
                   <th scope="col" className="empty-space"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">
-                    <span>You have no invoice<span>,</span> <a href="">add your first invoice today</a></span>
+                    <span>
+                      You have no invoice<span>,</span>{" "}
+                      <a href="">add your first invoice today</a>
+                    </span>
                   </th>
                   <td></td>
                   <td></td>
@@ -146,21 +182,28 @@ export default function Invoices() {
             aria-labelledby="contact-tab"
             tabIndex="0"
           >
-             <table className="table">
+            <table className="table">
               <thead>
                 <tr>
-                  <th scope="col"className="invoice">Invoice</th>
+                  <th scope="col" className="invoice">
+                    Invoice
+                  </th>
                   <th scope="col">Client</th>
                   <th scope="col">Date</th>
                   <th scope="col"></th>
-                  <th scope="col" className="balance">Total</th>
+                  <th scope="col" className="balance">
+                    Total
+                  </th>
                   <th scope="col" className="empty-space"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <th scope="row">
-                    <span>You have no invoice<span>,</span> <a href="">add your first invoice today</a></span>
+                    <span>
+                      You have no invoice<span>,</span>{" "}
+                      <a href="">add your first invoice today</a>
+                    </span>
                   </th>
                   <td></td>
                   <td></td>
