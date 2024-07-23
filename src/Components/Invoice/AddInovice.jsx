@@ -71,6 +71,42 @@ export default function AddInovice() {
     setTotal(totalAmount);
   }, [rows]);
 
+  const saveData = () => {
+    const formData = {
+      from: {
+        name: document.getElementById("userName").value,
+        email: document.getElementById("userEmail").value,
+        address: {
+          street: document.getElementById("userAddress1").value,
+          city: document.getElementById("userAddress2").value,
+          state: document.getElementById("userAddress3").value,
+        },
+        phone: document.getElementById("userPhone").value,
+        fax: document.getElementById("userFax").value,
+        website: details ? document.getElementById("website").value : "",
+        owner: details ? document.getElementById("owner").value : "",
+      },
+      to: {
+        name: document.getElementById("userNameTo").value,
+        email: document.getElementById("userEmailTo").value,
+        address: {
+          street: document.getElementById("userAddress1To").value,
+        },
+        phone: document.getElementById("userPhoneto").value,
+        fax: document.getElementById("userFaxto").value,
+      },
+      invoice: {
+        number: document.getElementById("invoice-number").value,
+        date: document.getElementById("invoice-date").value,
+      },
+      rows,
+      subtotal,
+      total,
+    };
+    localStorage.setItem("invoiceData", JSON.stringify(formData));
+    alert("Data saved!");
+  };
+
   return (
     <>
       <Navbar />
@@ -278,7 +314,7 @@ export default function AddInovice() {
                     <div className="row g-3 align-items-center">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userName"
+                          htmlFor="userNameTo"
                           className="col-form-label inputText"
                         >
                           Name
@@ -287,7 +323,7 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="text"
-                          id="userName"
+                          id="userNameTo"
                           className="form-control my-2"
                         />
                       </div>
@@ -295,7 +331,7 @@ export default function AddInovice() {
                     <div className="row g-3 align-items-center ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userEmail"
+                          htmlFor="userEmailTo"
                           className="col-form-label inputText"
                         >
                           Email
@@ -304,7 +340,7 @@ export default function AddInovice() {
                       <div className="col-md-10 ">
                         <input
                           type="email"
-                          id="userEmail"
+                          id="userEmailTo"
                           className="form-control"
                         />
                       </div>
@@ -312,7 +348,7 @@ export default function AddInovice() {
                     <div className="row g-3 align-items-center  ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userAddress1"
+                          htmlFor="userAddress1To"
                           className="col-form-label inputText"
                         >
                           Address
@@ -321,7 +357,7 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="text"
-                          id="userAddress1"
+                          id="userAddress1To"
                           className="form-control my-2 "
                           placeholder="Street"
                         />
@@ -330,7 +366,7 @@ export default function AddInovice() {
                     <div className="row g-3 align-items-center ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userPhone"
+                          htmlFor="userPhoneto"
                           className="col-form-label inputText"
                         >
                           Phone
@@ -339,7 +375,7 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="tel"
-                          id="userPhone"
+                          id="userPhoneto"
                           className="form-control"
                         />
                       </div>
@@ -347,7 +383,7 @@ export default function AddInovice() {
                     <div className="row g-3 align-items-center">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userFax"
+                          htmlFor="userFaxto"
                           className="col-form-label inputText my-3"
                         >
                           Fax
@@ -356,7 +392,7 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="text"
-                          id="userFax"
+                          id="userFaxto"
                           className="form-control"
                         />
                       </div>
@@ -481,6 +517,7 @@ export default function AddInovice() {
           </div>
         </div>
       </div>
+      <button onClick={saveData}>Save Invoice</button>
     </>
   );
 }
