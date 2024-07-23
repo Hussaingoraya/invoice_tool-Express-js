@@ -513,7 +513,21 @@ export default function AddInovice() {
                 </div>
               </div>
             </div>
-            <div className="col-4">col-4</div>
+            <div className="col-3">
+              <div className="emailPreview">
+                <p>PREVIEW VIA EMAIL</p>
+                <hr />
+                <div className="col-md-10 email-send">
+                  <input
+                    type="email"
+                    name="emailSend"
+                    className="form-control"
+                    placeholder="jhon@gmail.com"
+                  />
+                </div>
+                <button className="send-button">Send</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
