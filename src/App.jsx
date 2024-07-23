@@ -1,15 +1,16 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./Auth/Login";
 import SignUp from "./Auth/SignUp";
-import Invoices from "./Components/Invoices";
+import Invoices from "./Components/Invoice/Invoices";
 import Estimates from "./Components/Estimates";
 import Report from "./Components/Report";
 import Expenss from "./Components/Expenss";
-import Client from "./Components/Client";
-import ClientNew from "./Components/ClientNew";
+import Client from "./Components/Client/Client";
+import ClientNew from "./Components/Client/ClientNew";
 import ClientContext from "./Context/ClientContext";
 import ProtectedRoute from "./Services/ProtectedRoute";
-import NewInvoice from "./Components/NewInvoice";
+import NewInvoice from "./Components/Invoice/NewInvoice";
+import AddInovice from "./Components/Invoice/AddInovice";
 // import './App.css'
 
 function App() {
@@ -25,7 +26,9 @@ function App() {
               <Route path="report" element={<Report />}></Route>
               <Route path="estimate" element={<Estimates />}></Route>
               <Route path="/" element={<Invoices />}></Route>
-              <Route path="/new" element={<NewInvoice />}></Route>
+              {/* <Route path="/new" element={<NewInvoice />}></Route> */}
+              <Route path="/new" element={<AddInovice />}></Route>
+
             </Route>
             <Route path="signup" element={<SignUp />}></Route>
             <Route path="login" element={<Login />}></Route>

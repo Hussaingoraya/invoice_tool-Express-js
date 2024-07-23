@@ -1,8 +1,7 @@
 import React, { useContext, useState } from "react";
-import "./Nav.css";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import { Link, useNavigate } from "react-router-dom";
-import { AddingContext } from "../Context/ClientContext";
+import { AddingContext } from "../../Context/ClientContext";
 
 export default function Client() {
   const {clients} = useContext(AddingContext)

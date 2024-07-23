@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import { Link, useNavigate } from "react-router-dom";
 
-import "./Nav.css";
+import "../Nav.css";
 
 export default function Invoices() {
  const navigate = useNavigate()
