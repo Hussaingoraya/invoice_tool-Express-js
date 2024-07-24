@@ -11,6 +11,7 @@ import ClientContext from "./Context/ClientContext";
 import ProtectedRoute from "./Services/ProtectedRoute";
 import NewInvoice from "./Components/Invoice/NewInvoice";
 import AddInovice from "./Components/Invoice/AddInovice";
+import InvoicePreview from "./Components/Invoice/InvoicePreview";
 // import './App.css'
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
               <Route path="/" element={<Invoices />}></Route>
               {/* <Route path="/new" element={<NewInvoice />}></Route> */}
               <Route path="/new" element={<AddInovice />}></Route>
-
+              <Route path="/preview/:id" element={<InvoicePreview />}></Route>
             </Route>
             <Route path="signup" element={<SignUp />}></Route>
             <Route path="login" element={<Login />}></Route>

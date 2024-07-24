@@ -1,25 +1,100 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../Navbar";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faTrash,
+  faEdit,
+  faCheck,
+  faTimes,
+  faEye 
+} from "@fortawesome/free-solid-svg-icons";
 
 import "../Nav.css";
 
 export default function Invoices() {
- const navigate = useNavigate()
-  const handleNavigate = () =>{
-    navigate('/new')
+  const [invoiceData, setInvoiceData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const url = "http://localhost:8000/invoices";
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/new");
+  };
+  const filteredData = invoiceData.filter((item) =>
+    item.to.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleDelete = async (id) => {
+    console.log("Deleting item with id:", id);
+    try {
+      await axios.delete(`http://localhost:8000/invoices/${id}`);
+      setInvoiceData((prevData) => prevData.filter((item) => item._id !== id));
+      console.log(invoiceData, "deletddata");
+    } catch (error) {
+      console.error("Error deleting data:", error);
+    }
+  };
+  const handleUpdate = async (id, updatedData) => {
+    console.log("Updating item with id:", id);
+    try {
+      const response = await axios.put(`http://localhost:8000/invoices/${id}`, updatedData);
+      console.log('Update response:', response.data);
+
+      // Update your local state with the updated invoice data
+      setInvoiceData(prevData => prevData.map(item => item._id === id ? response.data : item));
+
+    } catch (error) {
+      console.error('Error updating data:', error.response ? error.response.data : error.message);
+    }
+  };
+  const updateInvoice = (invoice) => {
+    // Prepare updated data
+    const updatedData = {
+      ...invoice,
+      // update fields if necessary
+    };
+    handleUpdate(invoice._id, updatedData);
+  };
+  
+  const formatDate = (dateString) => moment(dateString).format("MMMM DD, YYYY");
+
+  // useEffect(() => {
+  //   // Retrieve data from localStorage
+  //   const data = JSON.parse(localStorage.getItem("invoiceData")) || [];
+  //   setStoredData(data);
+  //   console.log(storedData)
+  //   // if (data) {
+  //   //   setStoredData([JSON.parse(data)]); // Convert the JSON string back to an object
+  //   // }
+  // }, []);
+  useEffect(() => {
+    // Fetch invoice data from the API
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(url);
+        console.log("API response:", response.data);
+
+        setInvoiceData(response.data);
+        console.log(invoiceData, "steinvoiceData");
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const previewData =(id) =>{
+    navigate(`/preview/${id}`);
 
   }
-  const [storedData, setStoredData] = useState([]);
-
-  useEffect(() => {
-    // Retrieve data from localStorage
-    const data = JSON.parse(localStorage.getItem("clientDataArray")) || [];
-    setStoredData(data);
-    // if (data) {
-    //   setStoredData([JSON.parse(data)]); // Convert the JSON string back to an object
-    // }
-  }, []);
 
   return (
     <>
@@ -82,6 +157,8 @@ export default function Invoices() {
                 type="search"
                 placeholder="Search by Client Name"
                 aria-label="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <button
                 className="btn btn-outline-success invoice-btn "
@@ -110,21 +187,44 @@ export default function Invoices() {
                   <th scope="col">Client</th>
                   <th scope="col">Date</th>
                   <th scope="col"></th>
-                  <th scope="col" className="balance">
+                  <th
+                    scope="col"
+                    className="balance"
+                    style={{ textAlign: "center" }}
+                  >
                     Balance Due
                   </th>
-                  <th scope="col" className="empty-space"></th>
+                  <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {storedData && storedData.length > 0 ? (
-                  storedData.map((data, i) => (
+                {filteredData && filteredData.length > 0 ? (
+                  filteredData.map((data, i) => (
                     <tr key={i}>
-                      <td>{data.name}</td>
-                      <td>{data.email}</td>
-                      <td>{data.address1}</td>
-                      <td>{data.phone}</td>
+                      <td>{data.invoice.number}</td>
+                      <td>{data.to.name}</td>
+                      <td>{formatDate(data.invoice.date)}</td>
                       <td></td>
+
+                      <td style={{ textAlign: "center" }}>{data.total}$</td>
+                      <td style={{ display: "flex" }}>
+                        <div className="edit-icon">
+                          <FontAwesomeIcon icon={faEdit} onClick={() => updateInvoice(data)} />
+                        </div>
+                        <div className="trash-icon">
+                          <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => handleDelete(data._id)}
+                          />
+                        </div>
+                        <div className="eye-icon">
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            onClick={() => previewData(data._id)}
+                          />
+                        </div>
+                      </td>
+
                       {/* <td className="bill">Rs.{bill}</td> */}
                     </tr>
                   ))

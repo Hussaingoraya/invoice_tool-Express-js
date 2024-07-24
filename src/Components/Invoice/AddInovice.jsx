@@ -2,11 +2,38 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../Navbar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function AddInovice() {
+  const { id } = useParams(); // Get the ID from URL parameters
+  const [invoice, setInvoice] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchInvoice = async () => {
+      console.log(id, "id data");
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/invoices/${id}`
+        );
+        setInvoice(response.data);
+        console.log(invoice,"datafethced?"); 
+        setLoading(false);
+      } catch (err) {
+        setError(err.response ? err.response.data : err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchInvoice();
+  }, [id]);
   const [details, setDetails] = useState(false);
   const [subtotal, setSubtotal] = useState(0);
   const [total, setTotal] = useState(0);
+  const [showAlert, setShowAlert] = useState(false);
 
   const hideDetails = (e) => {
     e.preventDefault();
@@ -71,7 +98,7 @@ export default function AddInovice() {
     setTotal(totalAmount);
   }, [rows]);
 
-  const saveData = () => {
+  const saveData = async () => {
     const formData = {
       from: {
         name: document.getElementById("userName").value,
@@ -103,13 +130,48 @@ export default function AddInovice() {
       subtotal,
       total,
     };
-    localStorage.setItem("invoiceData", JSON.stringify(formData));
-    alert("Data saved!");
+    // localStorage.setItem("invoiceData", JSON.stringify(formData));
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/invoices",
+        formData
+      );
+      console.log(response.data);
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+
+    // setShowAlert(true); // Show success alert
+    // setTimeout(() => setShowAlert(false), 3000);
+  };
+  const navigate = useNavigate();
+
+  const previewData = (id) => {
+    navigate(`/preview/:${id}`);
   };
 
   return (
     <>
       <Navbar />
+      {/* Bootstrap Success Alert */}
+      {showAlert && (
+        <div
+          className="alert alert-success d-flex align-items-center"
+          role="alert"
+        >
+          <svg
+            className="bi flex-shrink-0 me-2"
+            role="img"
+            aria-label="Success:"
+          >
+            <use xlinkHref="#check-circle-fill" />
+          </svg>
+          <div>An example success alert with an icon</div>
+        </div>
+      )}
       <div className="container main-invoice">
         <div className="bg-grey-100">
           <div className="row">
@@ -530,8 +592,21 @@ export default function AddInovice() {
             </div>
           </div>
         </div>
+        <div className="saveButton col-8">
+          <div>
+            {" "}
+            <button className="saveInvoice" onClick={saveData}>
+              Save Invoice
+            </button>
+          </div>
+          <div>
+            {" "}
+            <button className="saveInvoice" onClick={previewData}>
+              Preview
+            </button>
+          </div>
+        </div>
       </div>
-      <button onClick={saveData}>Save Invoice</button>
     </>
   );
 }
