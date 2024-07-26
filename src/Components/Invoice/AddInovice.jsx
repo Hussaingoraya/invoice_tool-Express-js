@@ -20,7 +20,7 @@ export default function AddInovice() {
           `http://localhost:8000/invoices/${id}`
         );
         setInvoice(response.data);
-        console.log(invoice,"datafethced?"); 
+        console.log(invoice, "datafethced?");
         setLoading(false);
       } catch (err) {
         setError(err.response ? err.response.data : err.message);
@@ -169,7 +169,7 @@ export default function AddInovice() {
           >
             <use xlinkHref="#check-circle-fill" />
           </svg>
-          <div>An example success alert with an icon</div>
+          <div>Form Submitted</div>
         </div>
       )}
       <div className="container main-invoice">
@@ -178,7 +178,36 @@ export default function AddInovice() {
             <div className="col-8 bg-white invoiceForm">
               {" "}
               <div className="row">
+              <div className="dropdown mb-4">
+                    <button
+                      className="btn btn-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      Clients
+                    </button>
+                    <ul className="dropdown-menu">
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          Action
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          Another action
+                        </a>
+                      </li>
+                      <li>
+                        <a className="dropdown-item" href="#">
+                          Something else here
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 <div className="col-6">
+                  {/* dropdown */}
+                 
                   <div>
                     <h5>From</h5>
                   </div>

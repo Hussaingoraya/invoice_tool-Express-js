@@ -7,7 +7,6 @@ import Report from "./Components/Report";
 import Expenss from "./Components/Expenss";
 import Client from "./Components/Client/Client";
 import ClientNew from "./Components/Client/ClientNew";
-import ClientContext from "./Context/ClientContext";
 import ProtectedRoute from "./Services/ProtectedRoute";
 import NewInvoice from "./Components/Invoice/NewInvoice";
 import AddInovice from "./Components/Invoice/AddInovice";
@@ -17,7 +16,6 @@ import InvoicePreview from "./Components/Invoice/InvoicePreview";
 function App() {
   return (
     <>
-      <ClientContext>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<ProtectedRoute />}>
@@ -35,7 +33,6 @@ function App() {
             <Route path="login" element={<Login />}></Route>
           </Routes>
         </BrowserRouter>
-      </ClientContext>
     </>
   );
 }
