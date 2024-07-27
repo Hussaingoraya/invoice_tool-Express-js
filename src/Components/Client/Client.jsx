@@ -123,7 +123,7 @@ export default function Client() {
                     <tr key={i}>
                       <td>{client.name}</td>
                       <td>{client.email}</td>
-                      <td>{client.address1}</td>
+                      <td>{client.address?.city}</td>
                       <td>{client.phone}</td>
                       <td></td>
                       <td>{client.website}</td>

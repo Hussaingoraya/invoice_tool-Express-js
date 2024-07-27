@@ -11,18 +11,41 @@ export default function ClientNew() {
   const [clientData, setClientData] = useState({
     name: "",
     email: "",
-    address1: "",
-    address2: "",
-    address3: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+    },
     phone: "",
     business: "",
     website: "",
     owner: "",
   });
 
-  const handleChange = (e) => {
-    setClientData({ ...clientData, [e.target.name]: e.target.value });
-  };
+  // const handleChange = (e) => {
+  //   setClientData({ ...clientData, [e.target.name]: e.target.value });
+  // };
+// for nested
+
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  const keys = name.split(".");
+
+  if (keys.length > 1) {
+    setClientData((prevData) => ({
+      ...prevData,
+      [keys[0]]: {
+        ...prevData[keys[0]],
+        [keys[1]]: value,
+      },
+    }));
+  } else {
+    setClientData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }
+};
 
   useEffect(() => {
     if (state && state.client) {
@@ -30,9 +53,11 @@ export default function ClientNew() {
       setClientData({
         name: client?.name || "",
         email: client?.email || "",
-        address1: client?.address1 || "",
-        address2: client?.address2 || "",
-        address3: client?.address3 || "",
+        address: {
+          street: client.address?.street || "",
+          city: client.address?.city || "",
+          state: client.address?.state || "",
+        },
         phone: client?.phone || "",
         business: client?.business || "",
         website: client?.website || "",
@@ -77,9 +102,11 @@ export default function ClientNew() {
       setClientData({
         name: "",
         email: "",
-        address1: "",
-        address2: "",
-        address3: "",
+        address: {
+          street: "",
+          city: "",
+          state: "",
+        },
         phone: "",
         business: "",
         website: "",
@@ -166,30 +193,30 @@ export default function ClientNew() {
               <div className="col-md-10 app-theme">
                 <input
                   type="text"
-                  name="address1"
+                  name="address.street"
                   id="client-address1"
                   placeholder="123 Happy Client Street"
                   className="mb-3"
                   onChange={handleChange}
-                  value={clientData.address1}
+                  value={clientData.address.street}
                 />
                 <input
                   type="text"
-                  name="address2"
+                  name="address.city"
                   id="client-address2"
                   placeholder="City"
                   className="mb-3"
                   onChange={handleChange}
-                  value={clientData.address2}
+                  value={clientData.address.city}
                 />
                 <input
                   type="text"
-                  name="address3"
+                  name="address.state"
                   id="client-address3"
                   placeholder="Country"
                   className="mb-2"
                   onChange={handleChange}
-                  value={clientData.address3}
+                  value={clientData.address.state}
                 />
               </div>
             </div>
@@ -261,7 +288,7 @@ export default function ClientNew() {
               </div>
             </div>
             <button type="submit" className="btn btn-primary">
-            {state && state.client ? "Update" : "Submit"}
+              {state && state.client ? "Update" : "Submit"}
             </button>
           </form>
           {alert.show && (

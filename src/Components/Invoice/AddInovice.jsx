@@ -11,6 +11,22 @@ export default function AddInovice() {
   const [invoice, setInvoice] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [clientData, setClientData] = useState([]);
+
+  // clientDATA
+
+  useEffect(() => {
+    const fetchingData = async () => {
+      try {
+        const getClientData = await axios.get("http://localhost:8000/clients");
+        setClientData(getClientData.data);
+        console.log(clientData, "getResposne");
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchingData();
+  }, []);
 
   useEffect(() => {
     const fetchInvoice = async () => {
@@ -176,38 +192,36 @@ export default function AddInovice() {
         <div className="bg-grey-100">
           <div className="row">
             <div className="col-8 bg-white invoiceForm">
-              {" "}
+              {/* dropdown */}{" "}
               <div className="row">
-              <div className="dropdown mb-4">
-                    <button
-                      className="btn btn-secondary dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Clients
-                    </button>
-                    <ul className="dropdown-menu">
+                <div className="dropdown mb-4">
+                  <button
+                    className="btn btn-secondary dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Clients
+                  </button>
+                  <ul className="dropdown-menu">
+                    {clientData && clientData.length > 0 ? (
+                      clientData.map((client, i) => (
+                        <li key={i}>
+                          <a className="dropdown-item" href="#">
+                            {client.name}
+                          </a>
+                        </li>
+                      ))
+                    ) : (
                       <li>
                         <a className="dropdown-item" href="#">
-                          Action
+                          No clients found
                         </a>
                       </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Another action
-                        </a>
-                      </li>
-                      <li>
-                        <a className="dropdown-item" href="#">
-                          Something else here
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                    )}
+                  </ul>
+                </div>
                 <div className="col-6">
-                  {/* dropdown */}
-                 
                   <div>
                     <h5>From</h5>
                   </div>
