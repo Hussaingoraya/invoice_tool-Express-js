@@ -1,336 +1,157 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../Navbar";
+import React, { useEffect, useState } from "react";
+import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import Navbar from "../Navbar";
+
+const initialValues = {
+  from: {
+    name: "",
+    email: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+    },
+    phone: "",
+    business: "",
+    website: "",
+    owner: "",
+  },
+  to: {
+    name: "",
+    email: "",
+    address: {
+      street: "",
+    },
+    phone: "",
+    fax: "",
+  },
+  invoice: {
+    number: "",
+    date: "",
+  },
+  rows: [
+    {
+      description: "",
+      additional: "",
+      quantity: "",
+      tax: "",
+      totalAmount: "",
+      rate: "",
+    },
+  ],
+  subtotal: "",
+  total: "",
+};
 
 export default function AddInovice() {
-  const { id } = useParams(); // Get the ID from URL parameters
-  const [invoice, setInvoice] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [clientData, setClientData] = useState({
-    from: {
-      name: "",
-      email: "",
-      address: {
-        street: "",
-        city: "",
-        state: "",
-      },
-      phone: "",
-      business: "",
-      website: "",
-      owner: "",
-    },
-    to: {
-      name: "",
-      email: "",
-      address: {
-        street: "",
-      },
-      phone: "",
-      fax: "",
-    },
-    invoice: {
-      number: "",
-      date: "Date",
-    },
-    rows: [
-      {
-        description: "",
-        additional: "",
-        quantity: "",
-        tax: "",
-        totalAmount: "",
-        rate: "",
-      },
-    ],
-    subtotal: "",
-    total: "",
-  });
   const [details, setDetails] = useState(false);
-  const [subtotal, setSubtotal] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [showAlert, setShowAlert] = useState(false);
-  const { state } = useLocation();
+  const [selectedClient, setSelectedClient] = useState(null);
 
-  // clientDATA
+  const { values, handleBlur, handleChange, handleSubmit, setValues } =
+    useFormik({
+      initialValues: initialValues,
+      onSubmit: async (values) => {
+        try {
+          let updateData = await axios.post(
+            `http://localhost:8000/invoices`,
+            values
+          );
+          console.log(updateData);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+    });
 
-  // useEffect(() => {
-  //   const fetchingData = async () => {
-
-  //   };
-  //   fetchingData();
-  // }, []);
-  // useEffect(() => {
-  //   const fetchingData = async () => {
-  //     try {
-  //       const getClientData = await axios.get("http://localhost:8000/clients");
-  //       setClientData(getClientData.data);
-  //       console.log(clientData, "getResposne");
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-  //   fetchingData();
-  // }, []);
-
-  // useEffect(() => {
-  //   const fetchInvoice = async () => {
-  //     console.log(id, "id data");
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8000/invoices/${id}`
-  //       );
-  //       setInvoice(response.data);
-  //       console.log(invoice, "datafethced?");
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError(err.response ? err.response.data : err.message);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchInvoice();
-  // }, [id]);
+  const [clientData, setClientData] = useState([]);
 
   useEffect(() => {
-    if (state && state.invoice) {
-      const { invoice } = state;
-      setClientData({
-        from: {
-          name: invoice?.name || "",
-          email: invoice?.email || "",
-          address: {
-            street: invoice?.address?.street || "",
-            city: invoice?.address?.city || "",
-            state: invoice?.address?.state || "",
-          },
-          phone: invoice?.phone || "",
-          business: invoice?.business || "",
-          website: invoice?.website || "",
-          owner: invoice?.owner || "",
-        },
-        to: {
-          name: invoice?.to?.name || "",
-          email: invoice?.to?.email || "",
-          address: {
-            street: invoice?.to?.address?.street || "",
-          },
-          phone: invoice?.to?.phone || "",
-          fax: invoice?.to?.fax || "",
-        },
-        invoice: {
-          number: invoice?.invoice?.number || "",
-          date: invoice?.invoice?.date || "Date",
-        },
-        rows: invoice?.rows?.map((row) => ({
-          description: row?.description || "",
-          additional: row?.additional || "",
-          quantity: row?.quantity || "",
-          tax: row?.tax || "",
-          totalAmount: row?.totalAmount || "",
-          rate: row?.rate || "",
-        })) || [
-          {
-            description: "",
-            additional: "",
-            quantity: "",
-            tax: "",
-            totalAmount: "",
-            rate: "",
-          },
-        ],
-        subtotal: invoice?.subtotal || "",
-        total: invoice?.total || "",
-      });
-    }
-  }, [state]);
+    const fetchingData = async () => {
+      try {
+        let getData = await axios.get(`http://localhost:8000/clients`);
+        console.log(getData.data);
+        setClientData(getData.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    fetchingData();
+  }, []);
+
+  const addRow = () => {
+    setValues((prevValues) => ({
+      ...prevValues,
+      rows: [
+        ...prevValues.rows,
+        {
+          description: "",
+          additional: "",
+          rate: 0,
+          quantity: 0,
+          tax: 0,
+          totalAmount: 0,
+        },
+      ],
+    }));
+  };
+
+  const removeRow = (index) => {
+    setValues((prevValues) => {
+      const newRows = [...prevValues.rows];
+      newRows.splice(index, 1);
+      return {
+        ...prevValues,
+        rows: newRows,
+      };
+    });
+  };
   const hideDetails = (e) => {
     e.preventDefault();
     setDetails(!details);
   };
-
-  const [rows, setRows] = useState([
-    {
-      description: "",
-      additionalDetails: "",
-      rate: 0,
-      quantity: 0,
-      tax: 0,
-      totalAmount: 0,
-    },
-  ]);
-
-  const handleInputChange = (index, event) => {
-    const { name, value } = event.target;
-    const newRows = [...rows];
-    newRows[index][name] = value;
-    const rateValue = parseFloat(newRows[index].rate) || 0;
-    const quantityValue = parseInt(newRows[index].quantity) || 0;
-    const taxValue = parseFloat(newRows[index].tax) || 0;
-    const amount = rateValue * quantityValue;
-    const total = amount + (amount * taxValue) / 100;
-
-    newRows[index].totalAmount = total;
-
-    setRows(newRows);
-  };
-
-  const addRow = () => {
-    setRows([
-      ...rows,
-      {
-        description: "",
-        additionalDetails: "",
-        rate: 0,
-        quantity: 0,
-        tax: 0,
-        totalAmount: 0,
-      },
-    ]);
-  };
-
-  const removeRow = (index) => {
-    const newRows = [...rows];
-    newRows.splice(index, 1);
-    setRows(newRows);
+  const calculateTotal = () => {
+    let subtotal = 0;
+    values.rows.forEach((row) => {
+      const totalAmount = row.rate * row.quantity + row.tax;
+      subtotal += totalAmount;
+    });
+    setValues((prevValues) => ({
+      ...prevValues,
+      subtotal,
+      total: subtotal, // Update this line to include any other calculations if necessary
+    }));
   };
 
   useEffect(() => {
-    const subtotalAmount = rows.reduce(
-      (acc, row) =>
-        acc + (parseFloat(row.rate) || 0) * (parseInt(row.quantity) || 0),
-      0
-    );
-    const totalAmount = rows.reduce((acc, row) => acc + row.totalAmount, 0);
-
-    setSubtotal(subtotalAmount);
-    setTotal(totalAmount);
-  }, [rows]);
-
-  const saveData = async () => {
-    const formData = {
-      from: {
-        name: document.getElementById("userName").value,
-        email: document.getElementById("userEmail").value,
-        address: {
-          street: document.getElementById("userAddress1").value,
-          city: document.getElementById("userAddress2").value,
-          state: document.getElementById("userAddress3").value,
-        },
-        phone: document.getElementById("userPhone").value,
-        fax: document.getElementById("userFax").value,
-        website: details ? document.getElementById("website").value : "",
-        owner: details ? document.getElementById("owner").value : "",
-      },
-      to: {
-        name: document.getElementById("userNameTo").value,
-        email: document.getElementById("userEmailTo").value,
-        address: {
-          street: document.getElementById("userAddress1To").value,
-        },
-        phone: document.getElementById("userPhoneto").value,
-        fax: document.getElementById("userFaxto").value,
-      },
-      invoice: {
-        number: document.getElementById("invoice-number").value,
-        date: document.getElementById("invoice-date").value,
-      },
-      rows,
-      subtotal,
-      total,
-    };
-    // localStorage.setItem("invoiceData", JSON.""ify(formData));
-    try {
-      const url =
-        state && state.invoice
-          ? `http://localhost:8000/invoices/${state.invoice._id}`
-          : "http://localhost:8000/invoices";
-      const method = state && state.client ? "patch" : "post";
-
-      const clientResponse = await axios({
-        method,
-        url,
-        data: formData,
-      });
-
-      setClientData(clientResponse.data);
-
-      console.log(clientData, "response");
-
-      setAlert({
-        show: true,
-        message: "Invoice data saved successfully!",
-        variant: "success",
-      });
-      setTimeout(
-        () => setAlert({ show: false, message: "", variant: "" }),
-        3000
-      );
-      console.log(clientData, "clientData");
-      setClientData({
-        from: {
-          name: "",
-          email: "",
-          address: {
-            street: "",
-            city: "",
-            state: "",
-          },
-          phone: "",
-          business: "",
-          website: "",
-          owner: "",
-        },
+    calculateTotal();
+  }, [values.rows]);
+  useEffect(() => {
+    if (selectedClient) {
+      setValues((prevValues) => ({
+        ...prevValues,
         to: {
-          name: "",
-          email: "",
+          ...selectedClient,
           address: {
-            street: "",
+            ...selectedClient.address,
           },
-          phone: "",
-          fax: "",
         },
-        invoice: {
-          number: "",
-          date: "Date",
-        },
-        rows: [
-          {
-            description: "",
-            additinal: "",
-            quantity: "",
-            tax: "",
-            totalAmount: "",
-            rate: "",
-          },
-        ],
-        subtotal: "",
-        total: "",
-      });
-    } catch (error) {
-      console.log(error);
+      }));
     }
-
-    // setShowAlert(true); // Show success alert
-    // setTimeout(() => setShowAlert(false), 3000);
-  };
-  const navigate = useNavigate();
-
-  const previewData = (id) => {
-    navigate(`/preview/:${id}`);
+  }, [selectedClient, setValues]);
+  const handleClientSelection = (client) => {
+    setSelectedClient(client);
   };
 
   return (
     <>
       <Navbar />
       {/* Bootstrap Success Alert */}
-      {showAlert && (
+      {/* {showAlert && (
         <div
           className="alert alert-success d-flex align-items-center"
           role="alert"
@@ -344,7 +165,7 @@ export default function AddInovice() {
           </svg>
           <div>Form Submitted</div>
         </div>
-      )}
+      )} */}
       <div className="container main-invoice">
         <div className="bg-grey-100">
           <div className="row">
@@ -364,7 +185,11 @@ export default function AddInovice() {
                     {clientData && clientData.length > 0 ? (
                       clientData.map((client, i) => (
                         <li key={i}>
-                          <a className="dropdown-item" href="#">
+                          <a
+                            className="dropdown-item"
+                            onClick={() => handleClientSelection(client)}
+                            href="#"
+                          >
                             {client.name}
                           </a>
                         </li>
@@ -382,11 +207,11 @@ export default function AddInovice() {
                   <div>
                     <h5>From</h5>
                   </div>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="row g-3 align-items-center">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userName"
+                          htmlFor="fromName"
                           className="col-form-label inputText"
                         >
                           Name
@@ -395,15 +220,19 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="text"
-                          id="userName"
+                          id="fromName"
                           className="form-control my-2"
+                          name="from.name"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.name}
                         />
                       </div>
                     </div>
                     <div className="row g-3 align-items-center ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userEmail"
+                          htmlFor="fromEmail"
                           className="col-form-label inputText"
                         >
                           Email
@@ -412,15 +241,19 @@ export default function AddInovice() {
                       <div className="col-md-10 ">
                         <input
                           type="email"
-                          id="userEmail"
+                          id="fromEmail"
                           className="form-control"
+                          name="from.email"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.email}
                         />
                       </div>
                     </div>
                     <div className="row g-3 ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userAddress1"
+                          htmlFor="fromaddress1"
                           className="col-form-label inputText"
                         >
                           Address
@@ -429,28 +262,40 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="text"
-                          id="userAddress1"
+                          id="fromaddress1"
                           className="form-control my-2 "
                           placeholder="Street"
+                          name="from.address.street"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.address.street}
                         />
                         <input
                           type="text"
-                          id="userAddress2"
+                          id="fromAddress2"
                           className="form-control my-2"
                           placeholder="City"
+                          name="from.address.city"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.address.city}
                         />
                         <input
                           type="text"
                           id="userAddress3"
                           className="form-control my-2"
                           placeholder="State"
+                          name="from.address.state"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.address.state}
                         />
                       </div>
                     </div>
                     <div className="row g-3 align-items-center ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userPhone"
+                          htmlFor="fromPhone"
                           className="col-form-label inputText"
                         >
                           Phone
@@ -459,15 +304,19 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="tel"
-                          id="userPhone"
+                          id="fromPhone"
                           className="form-control"
+                          name="from.phone"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.phone}
                         />
                       </div>
                     </div>
                     <div className="row g-3 align-items-center ">
                       <div className="col-md-2">
                         <label
-                          htmlFor="userFax"
+                          htmlFor="fromBusiness"
                           className="col-form-label inputText"
                         >
                           Business <br />
@@ -477,8 +326,12 @@ export default function AddInovice() {
                       <div className="col-md-10">
                         <input
                           type="number"
-                          id="userFax"
+                          id="fromBusiness"
                           className="form-control"
+                          name="from.business"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.business}
                         />
                       </div>
                     </div>
@@ -508,6 +361,10 @@ export default function AddInovice() {
                               type="tel"
                               id="website"
                               className="form-control"
+                              name="from.website"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.from.website}
                             />
                           </div>
                         </div>
@@ -525,6 +382,10 @@ export default function AddInovice() {
                               type="tel"
                               id="owner"
                               className="form-control"
+                              name="from.owner"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.from.owner}
                             />
                           </div>
                         </div>
@@ -545,6 +406,10 @@ export default function AddInovice() {
                           type="tel"
                           id="invoice-number"
                           className="form-control"
+                          name="from.number"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.number}
                         />
                       </div>
                     </div>
@@ -562,6 +427,10 @@ export default function AddInovice() {
                           type="date"
                           id="invoice-date"
                           className="form-control"
+                          name="from.date"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.from.date}
                         />
                       </div>
                     </div>
@@ -572,7 +441,7 @@ export default function AddInovice() {
                   <div>
                     <h5>Bill To</h5>
                   </div>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="row g-3 align-items-center">
                       <div className="col-md-2">
                         <label
@@ -587,6 +456,10 @@ export default function AddInovice() {
                           type="text"
                           id="userNameTo"
                           className="form-control my-2"
+                          name="to.name"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.to.name}
                         />
                       </div>
                     </div>
@@ -604,6 +477,10 @@ export default function AddInovice() {
                           type="email"
                           id="userEmailTo"
                           className="form-control"
+                          name="to.email"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.to.email}
                         />
                       </div>
                     </div>
@@ -622,6 +499,10 @@ export default function AddInovice() {
                           id="userAddress1To"
                           className="form-control my-2 "
                           placeholder="Street"
+                          name="to.address.street"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.to.address.street}
                         />
                       </div>
                     </div>
@@ -639,6 +520,10 @@ export default function AddInovice() {
                           type="tel"
                           id="userPhoneto"
                           className="form-control"
+                          name="to.phone"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.to.phone}
                         />
                       </div>
                     </div>
@@ -656,6 +541,10 @@ export default function AddInovice() {
                           type="text"
                           id="userFaxto"
                           className="form-control"
+                          name="to.fax"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.to.fax}
                         />
                       </div>
                     </div>
@@ -673,15 +562,15 @@ export default function AddInovice() {
                     <th scope="col">Rate</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Tax</th>
-                    <th scope="col">Amount</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.map((row, index) => (
+                  {values.rows.map((row, index) => (
                     <tr key={index}>
                       <td>
                         <button
-                          className="addRemove"
+                          type="button"
+                          className="btn btn-danger"
                           onClick={() => removeRow(index)}
                         >
                           <FontAwesomeIcon icon={faMinus} />
@@ -691,24 +580,22 @@ export default function AddInovice() {
                         <div className="col-md-10">
                           <input
                             type="text"
-                            id={`itemDescription-${index}`}
-                            name="description"
+                            name={`rows[${index}].description`}
                             className="form-control"
                             placeholder="Item Description"
                             value={row.description}
-                            onChange={(e) => handleInputChange(index, e)}
+                            onChange={handleChange}
                           />
                         </div>
                         <div>
                           <textarea
-                            id={`additionalDetails-${index}`}
-                            name="additionalDetails"
+                            name={`rows[${index}].additional`}
                             cols="30"
                             rows="3"
                             placeholder="Additional Details"
                             className="mt-3 form-control"
                             value={row.additionalDetails}
-                            onChange={(e) => handleInputChange(index, e)}
+                            onChange={handleChange}
                           ></textarea>
                         </div>
                       </td>
@@ -716,12 +603,11 @@ export default function AddInovice() {
                         <div className="price">
                           <input
                             type="number"
-                            id={`rate-${index}`}
-                            name="rate"
+                            name={`rows[${index}].rate`}
                             className="form-control"
                             placeholder="Rate"
                             value={row.rate}
-                            onChange={(e) => handleInputChange(index, e)}
+                            onChange={handleChange}
                           />
                         </div>
                       </td>
@@ -729,12 +615,11 @@ export default function AddInovice() {
                         <div className="qty">
                           <input
                             type="number"
-                            id={`quantity-${index}`}
-                            name="quantity"
+                            name={`rows[${index}].quantity`}
                             className="form-control"
                             placeholder="Quantity"
                             value={row.quantity}
-                            onChange={(e) => handleInputChange(index, e)}
+                            onChange={handleChange}
                           />
                         </div>
                       </td>
@@ -742,18 +627,12 @@ export default function AddInovice() {
                         <div className="tax">
                           <input
                             type="number"
-                            id={`tax-${index}`}
-                            name="tax"
+                            name={`rows[${index}].tax`}
                             className="form-control"
                             placeholder="Tax"
                             value={row.tax}
-                            onChange={(e) => handleInputChange(index, e)}
+                            onChange={handleChange}
                           />
-                        </div>
-                      </td>
-                      <td>
-                        <div className="amount">
-                          {row.totalAmount.toFixed(2)}
                         </div>
                       </td>
                     </tr>
@@ -770,8 +649,8 @@ export default function AddInovice() {
               <div className="row">
                 <div className="col-8"></div>
                 <div className="col-4">
-                  <div>Subtotal: {subtotal.toFixed(2)}</div>
-                  <div>Total: {total.toFixed(2)}</div>
+                  <div>Subtotal: {values.subtotal}</div>
+                  <div>Total: {values.total}</div>
                 </div>
               </div>
             </div>
@@ -795,15 +674,13 @@ export default function AddInovice() {
         <div className="saveButton col-8">
           <div>
             {" "}
-            <button className="saveInvoice" onClick={saveData}>
+            <button
+              className="saveInvoice"
+              type="submit"
+              onClick={handleSubmit}
+            >
               Save Invoice
             </button>
-          </div>
-          <div>
-            {" "}
-            {/* <button className="saveInvoice" onClick={previewData}>
-              Preview
-            </button> */}
           </div>
         </div>
       </div>
