@@ -4,19 +4,21 @@ import logo from "../assets/good.png";
 import { NavLink, json, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
-  const loggedinUser = JSON.parse(localStorage.getItem("user"));
+  const loggedinUser = JSON.parse(localStorage.getItem("items"));
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("logIn");
     navigate("/login");
   };
+
+  const title = "Nexus-Solutions"
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary ">
         <div className="container">
           <img className="logo" src={logo} alt="" />
           <NavLink className="navbar-brand" to={'/'}>
-            Invoice Simple
+            {title}
           </NavLink>
           <button
             className="navbar-toggler"
@@ -79,7 +81,7 @@ export default function Navbar() {
               <div>
                 <ul className="navbar-nav me-auto mb-2 mb-lg-0 mr-3 userLogged">
                   <li className="nav-item ">
-                    <p className="nav-link ">Welcome : {loggedinUser.fname} </p>
+                    <p className="nav-link ">Welcome : {loggedinUser.firstname} </p>
                   </li>
                 </ul>
               </div>

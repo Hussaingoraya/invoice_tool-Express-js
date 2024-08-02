@@ -2,27 +2,70 @@ import React, { useState } from "react";
 import "./Signup.css";
 import goodImage from "../assets/good.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function SignUp() {
   const [input, setInput] = useState({
-    fname: "",
-    lname: "",
+    firstname: "",
+    lastname: "",
     email: "",
     password: "",
+    receiveEmails: false, // Checkbox state
   });
-  const handleSignup = (e) => {
-    e.preventDefault();
-    localStorage.setItem("user", JSON.stringify(input));
+
+  const navigate = useNavigate();
+  const handlelogin = () => {
     navigate("/login");
   };
+
+  const handleSignup = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:8000/users/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log(data, "register response");
+      localStorage.setItem('items', JSON.stringify(data.user));
+
+      // Clear the form fields after successful registration
+      setInput({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        receiveEmails: false, // Reset checkbox state
+      });
+
+      // Navigate to login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during registration:", error);
+    }
+  };
+
   const [showMore, setShowMore] = useState(false);
 
   const handleShowMore = () => {
     setShowMore(!showMore);
   };
-  const navigate = useNavigate();
-  const handlelogin = () => {
-    navigate("/login");
+
+  const handleInputChange = (e) => {
+    const { name, type, checked, value } = e.target;
+    setInput((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const handleInvalid = (e) => {
@@ -32,6 +75,7 @@ export default function SignUp() {
   const handleInput = (e) => {
     e.target.setCustomValidity("");
   };
+
   return (
     <>
       <div className="signup-container">
@@ -55,12 +99,10 @@ export default function SignUp() {
                   className="form-control"
                   id="firstname"
                   aria-describedby="emailHelp"
-                  placeholder="Jhon"
-                  name="fname"
-                  value={input.fname}
-                  onChange={(e) => {
-                    setInput({ ...input, [e.target.name]: e.target.value });
-                  }}
+                  placeholder="John"
+                  name="firstname"
+                  value={input.firstname}
+                  onChange={handleInputChange}
                   onInvalid={handleInvalid}
                   onInput={handleInput}
                   required
@@ -76,11 +118,9 @@ export default function SignUp() {
                   id="lastname"
                   aria-describedby="emailHelp"
                   placeholder="Doe"
-                  name="lname"
-                  value={input.lname}
-                  onChange={(e) => {
-                    setInput({ ...input, [e.target.name]: e.target.value });
-                  }}
+                  name="lastname"
+                  value={input.lastname}
+                  onChange={handleInputChange}
                   onInvalid={handleInvalid}
                   onInput={handleInput}
                   required
@@ -95,12 +135,10 @@ export default function SignUp() {
                   className="form-control"
                   id="exampleInputEmail1"
                   aria-describedby="emailHelp"
-                  placeholder="name@exmple.com"
+                  placeholder="name@example.com"
                   name="email"
                   value={input.email}
-                  onChange={(e) => {
-                    setInput({ ...input, [e.target.name]: e.target.value });
-                  }}
+                  onChange={handleInputChange}
                   onInvalid={handleInvalid}
                   onInput={handleInput}
                   required
@@ -117,9 +155,7 @@ export default function SignUp() {
                   placeholder="******"
                   name="password"
                   value={input.password}
-                  onChange={(e) => {
-                    setInput({ ...input, [e.target.name]: e.target.value });
-                  }}
+                  onChange={handleInputChange}
                   onInvalid={handleInvalid}
                   onInput={handleInput}
                   required
@@ -130,6 +166,9 @@ export default function SignUp() {
                   type="checkbox"
                   className="form-check-input"
                   id="exampleCheck1"
+                  name="receiveEmails"
+                  checked={input.receiveEmails}
+                  onChange={handleInputChange}
                 />
                 <label className="form-check-label" htmlFor="exampleCheck1">
                   I want to receive emails from Invoice Simple and its
@@ -153,7 +192,11 @@ export default function SignUp() {
               <button type="submit" className="btn submit-button mb-2">
                 Sign Up
               </button>
-              <button type="submit" className="btn cancel-button">
+              <button
+                type="button"
+                className="btn cancel-button"
+                onClick={handlelogin}
+              >
                 Cancel
               </button>
               <p className="terms">
@@ -166,14 +209,14 @@ export default function SignUp() {
         <div className="login-btn mt-3">
           Already have an account?{" "}
           <button
-            type="submit"
+            type="button"
             className="btn login-button"
             onClick={handlelogin}
           >
             Login
           </button>
         </div>
-        <p className="Build-by mt-2">Build by Hussain Aslam</p>
+        <p className="Build-by mt-2">Built by Hussain Aslam</p>
       </div>
     </>
   );

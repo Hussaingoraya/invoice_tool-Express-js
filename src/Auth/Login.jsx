@@ -9,17 +9,48 @@ export default function Login() {
     password: "",
   });
 
-  const handleLogin = (e) => {
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+  //   const LoggedIn = JSON.parse(localStorage.getItem("user"));
+  //   if (
+  //     input.email === LoggedIn.email &&
+  //     input.password === LoggedIn.password
+  //   ) {
+  //     localStorage.setItem("logIn" , true)
+  //     navigate("/");
+  //   } else {
+  //     alert("You are not registered please signUp");
+  //   }
+  // };
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const LoggedIn = JSON.parse(localStorage.getItem("user"));
-    if (
-      input.email === LoggedIn.email &&
-      input.password === LoggedIn.password
-    ) {
-      localStorage.setItem("logIn" , true)
-      navigate("/");
-    } else {
-      alert("You are not registered please signUp");
+    try {
+      const response = await fetch("http://localhost:8000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(input),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Network response was not ok");
+      }
+
+      const data = await response.json();
+      console.log(data, "login response");
+
+      if (data && data.user) {
+        localStorage.setItem("logIn", true);
+
+        navigate("/");
+      } else {
+        alert("Invalid credentials. Please check your email and password.");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      alert("An error occurred during login. Please try again.");
     }
   };
 

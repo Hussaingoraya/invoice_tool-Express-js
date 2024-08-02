@@ -147,6 +147,12 @@ export default function Client() {
                         </Link>
                       </span>
                     </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 )}
               </tbody>

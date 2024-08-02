@@ -29,6 +29,8 @@ export default function InvoicePreview() {
 
     fetchInvoice();
   }, [id]);
+
+ 
   if (loading) {
     return (
       <>

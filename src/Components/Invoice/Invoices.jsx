@@ -52,14 +52,10 @@ export default function Invoices() {
       console.error('Error updating data:', error.response ? error.response.data : error.message);
     }
   };
-  const updateInvoice = (invoice) => {
-    // Prepare updated data
-    const updatedData = {
-      ...invoice,
-      // update fields if necessary
-    };
-    handleUpdate(invoice._id, updatedData);
-  };
+  // const updateInvoice = (id) => {
+    
+  //   navigate(`/edit/${id}`);
+  // };
   
   const formatDate = (dateString) => moment(dateString).format("MMMM DD, YYYY");
 
@@ -209,7 +205,10 @@ export default function Invoices() {
                       <td style={{ textAlign: "center" }}>{data.total}$</td>
                       <td style={{ display: "flex" }}>
                         <div className="edit-icon">
-                          <FontAwesomeIcon icon={faEdit} onClick={() => updateInvoice(data)} />
+                          {/* <Link to={
+                            `/new/${data._id}`
+                          }>Update</Link> */}
+                          <FontAwesomeIcon icon={faEdit} onClick={() => navigate(`/edit/${data._id}`)} />
                         </div>
                         <div className="trash-icon">
                           <FontAwesomeIcon
@@ -233,11 +232,16 @@ export default function Invoices() {
                     <th scope="row">
                       <span>
                         You have no invoice<span>,</span>{" "}
-                        <Link to={"/client/new"}>
+                        <Link to={"/new"}>
                           add your first client today
                         </Link>
                       </span>
                     </th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 )}
               </tbody>

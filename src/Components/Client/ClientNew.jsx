@@ -25,27 +25,27 @@ export default function ClientNew() {
   // const handleChange = (e) => {
   //   setClientData({ ...clientData, [e.target.name]: e.target.value });
   // };
-// for nested
+  // for nested
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  const keys = name.split(".");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    const keys = name.split(".");
 
-  if (keys.length > 1) {
-    setClientData((prevData) => ({
-      ...prevData,
-      [keys[0]]: {
-        ...prevData[keys[0]],
-        [keys[1]]: value,
-      },
-    }));
-  } else {
-    setClientData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  }
-};
+    if (keys.length > 1) {
+      setClientData((prevData) => ({
+        ...prevData,
+        [keys[0]]: {
+          ...prevData[keys[0]],
+          [keys[1]]: value,
+        },
+      }));
+    } else {
+      setClientData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
+  };
 
   useEffect(() => {
     if (state && state.client) {
@@ -69,10 +69,6 @@ const handleChange = (e) => {
   const onSubmitForm = async (e) => {
     e.preventDefault();
     try {
-      // const clientResponse = await axios.post(
-      //   "http://localhost:8000/clients",
-      //   clientData
-      // );
       const url =
         state && state.client
           ? `http://localhost:8000/clients/${state.client._id}`
